@@ -31,9 +31,9 @@ jobs:
           az ml model download \
             --name RoBERTTa-SequenceClassification \
             --version 1 \
-            --download-path . && \
             --resource-group Practical-MLOps \
             --workspace-name ML_CI_CD \ 
+            --download-path . && \
             mv RoBERTTa-SequenceClassification/* ./webapp/ && \
             rm -r RoBERTTa-SequenceClassification
 
