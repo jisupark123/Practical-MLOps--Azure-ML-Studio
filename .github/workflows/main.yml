@@ -28,7 +28,7 @@ jobs:
 
       - name: 모델 복원
         run: |
-          sudo apt-get update &&
+          sudo apt-get update
           sudo apt-get install -y azcopy
           az ml model download \
           --name RoBERTTa-SequenceClassification \
@@ -59,6 +59,16 @@ jobs:
         uses: ASzc/change-string-case-action@v5
         with:
           string: ${{ github.repository_owner }}
+
+      - name: Login to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{secrets.DOCKER_HUB_USERNAME}}/flask-docker-onnx-azure_x86:v1
+            ghcr.io/${{steps.GH_REPOSITORY_OWNER.outputs.lowercase}}/flask-docker-onnx-azure_x86:v1
 
       - name: 컨테이너 빌드 후 도커 허브와 깃허브 레지스트리로 동시에 푸쉬
         uses: docker/build-push-action@v2
